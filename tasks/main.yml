@@ -14,10 +14,10 @@
 - include: dataverse-postgres.yml
   tags: postgres
 
-- include: dataverse-glassfish.yml
+- include: dataverse-glassfish.yml #changed to asadmin restart-domain, not sure if this will work on fresh install
   tags: glassfish
 
-- include: dataverse-solr.yml
+- include: dataverse-solr.yml #fails here if collection1 already added, consider swapping out with ansible galaxy
   tags: solr
 
 - include: dataverse-install.yml

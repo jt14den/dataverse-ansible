@@ -54,8 +54,10 @@
   when: ansible_os_family == "RedHat" and
         ansible_distribution_major_version == "7"
 
-- name: reload systemd on RedHat/CentOS7
-  shell: systemctl daemon-reload
+- name: just force systemd to reread configs (2.4 and above)
+  systemd: daemon_reload=yes
+#- name: reload systemd on RedHat/CentOS7
+#  shell: systemctl daemon-reload
   when: ansible_os_family == "RedHat" and
         ansible_distribution_major_version == "7"
 
@@ -72,7 +74,8 @@
 - name: start glassfish with asadmin so subsequent Ansible-initiated restarts succeed on RedHat/CentOS
   become: yes
   become_user: "{{ dataverse.glassfish.user }}"
-  shell: "nohup {{ dataverse.glassfish.root }}/bin/asadmin start-domain"
+  #systemd: state=started name=glassfish
+  shell: "nohup {{ dataverse.glassfish.root }}/bin/asadmin restart-domain"
   when: ansible_os_family == "RedHat" and
         ansible_distribution_major_version == "7"
 

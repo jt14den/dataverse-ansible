@@ -29,13 +29,14 @@
 - name: untar solr
   shell: "tar xvzC /tmp -f /tmp/solr-{{ dataverse.solr.version }}.tgz"
 
+#do we remove the below because it contains things?
 - name: remove solr root directory
   file: path="{{ dataverse.solr.root }}" state=absent
 
 - name: ensure solr directory exists
   file: path="{{ dataverse.solr.root }}" state=directory
         owner=root group=root mode=0755
-
+#can we test if this has happened and then add 'when' clause above
 - name: copy solr distro files into solr root
   shell: "/bin/cp -r /tmp/solr-{{ dataverse.solr.version }}/* {{ dataverse.solr.root }}"
 
@@ -52,6 +53,7 @@
   with_items:
     - "{{ dataverse.solr.root }}/server/solr/collection1"
 
+#why delete below?
 - name: clean up solr distro files
   file: path="/tmp/solr-{{ dataverse.solr.version }}" state=absent
 
@@ -85,7 +87,7 @@
   lineinfile:
         dest: "{{ dataverse.solr.root }}/server/etc/jetty.xml"
         regexp: "requestHeaderSize"
-        state: absent        
+        state: absent
 
 - name: insert requestHeaderSize
   lineinfile:
