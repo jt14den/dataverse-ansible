@@ -33,7 +33,23 @@ roles
     └── vars
 ```
 
-	$ ansible-playbook -i <inventory file> [-u <user>] [-b] [-K] -e @<group_vars_file> [-v] dataverse.pb
+In the roles folder, add a file named `<role>.yml`, e.g. `dvn.yml` and set up this way:
+
+```
+---
+- hosts: awsdvn
+  become: yes
+  user: ec2-user
+  roles:
+    - geerlingguy.repo-epel
+    - dataverse-ansible
+```
+Note above, I'm running a `repo-epel` role prior to the `dataverse-ansible` role b/c there were issues with Rhel7 and the `epel` repository. I got this role via the `ansible-galaxy` by running `ansible-galaxy install repo-epel` (this will store that playbook in the your `~/.ansible/roles`).  Now, we can run the role by:
+
+```
+$ ansible-playbook --private-key=~/.ssh/my-aws-secret.pem dvn.yml
+```
+**Currently** this role isn't idempotent, but we are working to resolve that.
 
 The role currently supports CentOS 7 with all services running on the same machine, but intends to become OS-agnostic and support multiple nodes for scalability.
 
