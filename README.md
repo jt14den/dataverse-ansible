@@ -12,7 +12,7 @@ The preparation lies in the group_var options (usernames/passwords, whether to i
 Put this dataverse-ansible role in a `roles` folder, so it looks something like:
 
 ```
-.
+roles
 ├── dataverse-ansible
 │   ├── defaults
 │   ├── files
